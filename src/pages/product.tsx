@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import PageLoading from "../components/page-load-data";
 import { Button } from "../components/ui/button";
 import { cn } from "../lib/utils";
+import { useProductStore } from "./../store/product";
 
 const Product = () => {
   const { productId = "" } = useParams();
+  const addToCart = useProductStore((state) => state.addProduct);
   const { data, isFetching, isPending, isError, error } = useQuery({
     queryKey: ["product", { productId }],
     queryFn: () => fetchProduct(productId),
@@ -19,6 +21,10 @@ const Product = () => {
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
+
+  const handleAddToCart = () => {
+    addToCart(data);
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -61,12 +67,7 @@ const Product = () => {
                 currency: "USD",
               }).format(data.price)}
             </p>
-            <Button
-              variant="outline"
-              onClick={() => {
-                // Implement the add to cart functionality
-              }}
-            >
+            <Button variant="outline" onClick={handleAddToCart}>
               Add to Cart
             </Button>
           </div>

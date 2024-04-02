@@ -2,6 +2,7 @@ import NavbarWrapper from "./components/header/navbar-wrapper";
 import Product from "./pages/product";
 import HomePage from "./pages/products";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CartPage from "./pages/cart";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/cart",
+        element: <CartPage />,
       },
       {
         path: "/product/:productId",

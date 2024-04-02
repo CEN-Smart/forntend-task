@@ -12,12 +12,18 @@ import { cn } from "../../lib/utils";
 import { ProductList } from "../../types/product";
 import { Button } from "..//ui/button";
 import { Link } from "react-router-dom";
+import { useProductStore } from "./../../store/product";
 
 interface Product {
   product: ProductList;
 }
 
 const ProductCard: React.FC<Product> = ({ product }) => {
+  const addToCart = useProductStore((state) => state.addProduct);
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
   return (
     <Card
       className={cn(`
@@ -82,7 +88,11 @@ const ProductCard: React.FC<Product> = ({ product }) => {
               currency: "USD",
             }).format(product.price)}
           </span>
-          <Button variant="outline" className={cn("button", "button-primary")}>
+          <Button
+            onClick={handleAddToCart}
+            variant="outline"
+            className={cn("button", "button-primary")}
+          >
             Add to Cart
           </Button>
         </div>
