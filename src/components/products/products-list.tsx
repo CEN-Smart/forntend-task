@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProductList } from "./../../types/product";
+import { Product } from "./../../types/product";
 import ProductCard from "./product-card";
 import { fetchProducts } from "../../query/fetch-products";
 import { cn } from "../../lib/utils";
@@ -26,7 +26,7 @@ const ProductsList = () => {
       max-w-6xl mx-auto px-4 sm:px-6 lg:px-8
     `)}
     >
-      {data.map((product: ProductList) => (
+      {data.map((product: Product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>
