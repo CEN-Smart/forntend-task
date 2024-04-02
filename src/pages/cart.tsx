@@ -22,7 +22,7 @@ const CartPage = () => {
   return (
     <div className="container mx-auto ">
       {products.length > 0 ? (
-        <div className="flex justify-between gap-4 lg:flex-row flex-col">
+        <div className="flex justify-center gap-4 lg:flex-row flex-col">
           <Card className="max-w-4xl w-full overflow-auto h-80 ">
             <CardHeader>
               <CardTitle>
