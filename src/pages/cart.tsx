@@ -11,26 +11,54 @@ import {
   CardFooter,
   CardDescription,
 } from "./../components/ui/card";
-import { useProductStore } from "./../store/product";
+import { useCartStore } from "./../store/product";
 
 const CartPage = () => {
-  const products = useProductStore((state) => state.products);
-  const clearCart = useProductStore((state) => state.clearCart);
-  const removeProduct = useProductStore((state) => state.removeProduct);
-  const increase = useProductStore((state) => state.increaseProduct);
-  const decrease = useProductStore((state) => state.decreaseProduct);
+  const {
+    cartItems,
+    increaseItemQuantity,
+    decreaseItemQuantity,
+    removeItemFromCart,
+    clearCart,
+  } = useCartStore();
+  const quantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartId = cartItems.find((item) => item.id);
+
+  const onIncreaseItemQuantity = () => {
+    if (cartId) {
+      increaseItemQuantity(cartId.id);
+    }
+  };
+
+  const onDecreaseItemQuantity = () => {
+    if (cartId) {
+      decreaseItemQuantity(cartId.id);
+    }
+  };
+
+  const onRemoveItemFromCart = () => {
+    if (cartId) {
+      removeItemFromCart(cartId.id);
+    }
+  };
+
+  const onClearCart = () => {
+    clearCart();
+  };
+
   return (
     <div className="container mx-auto ">
-      {products.length > 0 ? (
+      {cartItems.length > 0 ? (
         <div className="flex justify-center gap-4 lg:flex-row flex-col">
           <Card className="max-w-4xl w-full overflow-auto h-80 ">
             <CardHeader>
               <CardTitle>
-                Cart {products.length > 0 && `(${products.length})`}
+                Cart{" "}
+                {quantity > 1 ? `(${quantity} items)` : `(${quantity} item)`}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {products.map((product) => (
+              {cartItems.map((product) => (
                 <div
                   key={product.id}
                   className="flex justify-between items-start border-b border-gray-200 gap-3 py-1"
@@ -43,7 +71,7 @@ const CartPage = () => {
                         className="size-16 object-scale-down"
                       />
                       <Button
-                        onClick={() => product.id && removeProduct(product.id)}
+                        onClick={onRemoveItemFromCart}
                         className="mt-2"
                         size="sm"
                         variant="destructive"
@@ -76,17 +104,15 @@ const CartPage = () => {
 
                     <div className="flex gap-2 mt-4">
                       <Button
-                        onClick={() => product.id && decrease(product.id)}
+                        onClick={onDecreaseItemQuantity}
                         size="sm"
                         variant="outline"
                       >
                         -
                       </Button>
-                      <span>
-                        {products.filter((p) => p.id === product.id).length}
-                      </span>
+                      <span>{product.quantity ? product.quantity : 1}</span>
                       <Button
-                        onClick={() => product.id && increase(product.id)}
+                        onClick={onIncreaseItemQuantity}
                         size="sm"
                         variant="outline"
                       >
@@ -98,7 +124,7 @@ const CartPage = () => {
               ))}
             </CardContent>
             <CardFooter>
-              <Button onClick={clearCart}>Clear Cart</Button>
+              <Button onClick={onClearCart}>Clear Cart</Button>
             </CardFooter>
           </Card>
           <Card className=" max-w-sm  h-fit">
@@ -114,7 +140,10 @@ const CartPage = () => {
                       style: "currency",
                       currency: "USD",
                     }).format(
-                      products.reduce((acc, product) => acc + product.price, 0)
+                      cartItems.reduce(
+                        (acc, item) => acc + item.price * item.quantity,
+                        0
+                      )
                     )}
                   </p>
                 </div>
@@ -127,10 +156,10 @@ const CartPage = () => {
                       style: "currency",
                       currency: "USD",
                     }).format(
-                      products.reduce(
-                        (acc, product) => acc + product.price,
+                      cartItems.reduce(
+                        (acc, item) => acc + item.price * item.quantity * 0.1,
                         0
-                      ) * 0.1
+                      )
                     )}
                   </p>
                 </div>
@@ -143,10 +172,14 @@ const CartPage = () => {
                       style: "currency",
                       currency: "USD",
                     }).format(
-                      products.reduce(
-                        (acc, product) => acc + product.price,
+                      cartItems.reduce(
+                        (acc, item) => acc + item.price * item.quantity,
                         0
-                      ) * 1.1
+                      ) +
+                        cartItems.reduce(
+                          (acc, item) => acc + item.price * item.quantity * 0.1,
+                          0
+                        )
                     )}
                   </p>
                 </div>
@@ -154,14 +187,20 @@ const CartPage = () => {
             </CardContent>
             <CardFooter>
               <Button className="w-full">
-                Checkout ({" "}
+                Checkout (
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                 }).format(
-                  products.reduce((acc, product) => acc + product.price, 0) *
-                    1.1
-                )}{" "}
+                  cartItems.reduce(
+                    (acc, item) => acc + item.price * item.quantity,
+                    0
+                  ) +
+                    cartItems.reduce(
+                      (acc, item) => acc + item.price * item.quantity * 0.1,
+                      0
+                    )
+                )}
                 )
               </Button>
             </CardFooter>

@@ -9,19 +9,19 @@ import {
 import { EyeOpenIcon } from "@radix-ui/react-icons";
 
 import { cn } from "../../lib/utils";
-import { ProductList } from "../../types/product";
+import { Product } from "../../types/product";
 import { Button } from "..//ui/button";
 import { Link } from "react-router-dom";
-import { useProductStore } from "./../../store/product";
+import { useCartStore } from "./../../store/product";
 
-interface Product {
-  product: ProductList;
+interface ProductCardProps {
+  product: Product;
 }
 
-const ProductCard: React.FC<Product> = ({ product }) => {
-  const addToCart = useProductStore((state) => state.addProduct);
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { addItemToCart } = useCartStore();
   const handleAddToCart = () => {
-    addToCart(product);
+    addItemToCart(product);
   };
 
   return (

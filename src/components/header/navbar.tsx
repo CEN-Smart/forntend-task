@@ -1,9 +1,10 @@
 import { cn } from "./../../lib/utils";
 import { Link, NavLink } from "react-router-dom";
 import { TiShoppingCart } from "react-icons/ti";
-import { useProductStore } from "./../../store/product";
+import { useCartStore } from "./../../store/product";
 const Navbar = () => {
-  const quantity = useProductStore((state) => state.quantity);
+  const { cartItems } = useCartStore();
+  const quantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   return (
     <nav className="bg-gray-800 fixed w-full z-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,7 +39,7 @@ const Navbar = () => {
               <button className="p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                 <span className="sr-only">View notifications</span>
                 <TiShoppingCart className="size-8" />
-                {quantity > 0 && (
+                {cartItems.length > 0 && (
                   <span className="absolute bottom-2 -right-1 inline-block rounded-full bg-rose-500 text-white px-2 py-1 text-xs font-bold">
                     {quantity}
                   </span>

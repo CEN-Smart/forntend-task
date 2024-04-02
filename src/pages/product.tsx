@@ -4,11 +4,12 @@ import { useParams } from "react-router-dom";
 import PageLoading from "../components/page-load-data";
 import { Button } from "../components/ui/button";
 import { cn } from "../lib/utils";
-import { useProductStore } from "./../store/product";
+import { useCartStore } from "./../store/product";
 
 const Product = () => {
   const { productId = "" } = useParams();
-  const addToCart = useProductStore((state) => state.addProduct);
+  const { addItemToCart } = useCartStore();
+
   const { data, isFetching, isPending, isError, error } = useQuery({
     queryKey: ["product", { productId }],
     queryFn: () => fetchProduct(productId),
@@ -23,7 +24,7 @@ const Product = () => {
   }
 
   const handleAddToCart = () => {
-    addToCart(data);
+    addItemToCart(data);
   };
 
   return (
