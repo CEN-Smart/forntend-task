@@ -5,6 +5,7 @@ import PageLoading from "../components/page-load-data";
 import { Button } from "../components/ui/button";
 import { cn } from "../lib/utils";
 import { useCartStore } from "./../store/product";
+import { toast } from "sonner";
 
 const Product = () => {
   const { productId = "" } = useParams();
@@ -25,6 +26,7 @@ const Product = () => {
 
   const handleAddToCart = () => {
     addItemToCart(data);
+    toast.success(data.title + " added to cart");
   };
 
   return (

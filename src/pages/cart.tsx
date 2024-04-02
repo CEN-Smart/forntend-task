@@ -12,6 +12,7 @@ import {
   CardDescription,
 } from "./../components/ui/card";
 import { useCartStore } from "./../store/product";
+import { toast } from "sonner";
 
 const CartPage = () => {
   const {
@@ -22,24 +23,19 @@ const CartPage = () => {
     clearCart,
   } = useCartStore();
   const quantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const cartId = cartItems.find((item) => item.id);
+  const productTitle = cartItems.find((item) => item.title);
 
-  const onIncreaseItemQuantity = () => {
-    if (cartId) {
-      increaseItemQuantity(cartId.id);
-    }
+  const onIncreaseItemQuantity = (id: number) => {
+    increaseItemQuantity(id);
   };
 
-  const onDecreaseItemQuantity = () => {
-    if (cartId) {
-      decreaseItemQuantity(cartId.id);
-    }
+  const onDecreaseItemQuantity = (id: number) => {
+    decreaseItemQuantity(id);
   };
 
-  const onRemoveItemFromCart = () => {
-    if (cartId) {
-      removeItemFromCart(cartId.id);
-    }
+  const onRemoveItemFromCart = (id: number) => {
+    removeItemFromCart(id);
+    toast.success(productTitle?.title + " removed from cart");
   };
 
   const onClearCart = () => {
@@ -50,7 +46,7 @@ const CartPage = () => {
     <div className="container mx-auto ">
       {cartItems.length > 0 ? (
         <div className="flex justify-center gap-4 lg:flex-row flex-col">
-          <Card className="max-w-4xl w-full overflow-auto h-80 ">
+          <Card className="max-w-4xl w-full overflow-y-auto h-80 ">
             <CardHeader>
               <CardTitle>
                 Cart{" "}
@@ -63,7 +59,7 @@ const CartPage = () => {
                   key={product.id}
                   className="flex justify-between items-start border-b border-gray-200 gap-3 py-1"
                 >
-                  <div className="flex items-start">
+                  <div className="flex flex-col sm:flex-row sm:items-start ">
                     <div>
                       <img
                         src={product.image}
@@ -71,15 +67,15 @@ const CartPage = () => {
                         className="size-16 object-scale-down"
                       />
                       <Button
-                        onClick={onRemoveItemFromCart}
-                        className="mt-2"
+                        onClick={() => onRemoveItemFromCart(product.id)}
+                        className="sm:mt-2 w-full sm:w-fit mt-6"
                         size="sm"
                         variant="destructive"
                       >
                         Remove
                       </Button>
                     </div>
-                    <div className="flex flex-col ml-10">
+                    <div className="flex flex-col sm:ml-10 mt-6 sm:mt-0">
                       <p>{product.title}</p>
                       <p
                         className={cn("", {
@@ -104,7 +100,7 @@ const CartPage = () => {
 
                     <div className="flex gap-2 mt-4">
                       <Button
-                        onClick={onDecreaseItemQuantity}
+                        onClick={() => onDecreaseItemQuantity(product?.id)}
                         size="sm"
                         variant="outline"
                       >
@@ -112,7 +108,7 @@ const CartPage = () => {
                       </Button>
                       <span>{product.quantity ? product.quantity : 1}</span>
                       <Button
-                        onClick={onIncreaseItemQuantity}
+                        onClick={() => onIncreaseItemQuantity(product?.id)}
                         size="sm"
                         variant="outline"
                       >
@@ -127,7 +123,7 @@ const CartPage = () => {
               <Button onClick={onClearCart}>Clear Cart</Button>
             </CardFooter>
           </Card>
-          <Card className=" max-w-sm  h-fit">
+          <Card className=" max-w-sm  h-fit shrink-0">
             <CardHeader>
               <CardTitle>Cart Summary</CardTitle>
             </CardHeader>
@@ -186,22 +182,24 @@ const CartPage = () => {
               </CardDescription>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">
-                Checkout (
-                {new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(
-                  cartItems.reduce(
-                    (acc, item) => acc + item.price * item.quantity,
-                    0
-                  ) +
+              <Button asChild className="w-full">
+                <Link to="/checkout/addresses">
+                  Checkout (
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(
                     cartItems.reduce(
-                      (acc, item) => acc + item.price * item.quantity * 0.1,
+                      (acc, item) => acc + item.price * item.quantity,
                       0
-                    )
-                )}
-                )
+                    ) +
+                      cartItems.reduce(
+                        (acc, item) => acc + item.price * item.quantity * 0.1,
+                        0
+                      )
+                  )}
+                  )
+                </Link>
               </Button>
             </CardFooter>
           </Card>
