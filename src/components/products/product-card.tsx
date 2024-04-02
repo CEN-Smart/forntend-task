@@ -32,7 +32,7 @@ const ProductCard: React.FC<Product> = ({ product }) => {
         className={cn(`
         absolute top-6 right-6 text-gray-500
         transition duration-300
-        opacity-0 group-hover:opacity-100
+         md:opacity-0 md:group-hover:opacity-100
        inline-block
        bg-white
         rounded-full

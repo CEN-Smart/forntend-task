@@ -5,7 +5,7 @@ const NavbarWrapper = () => {
   return (
     <div>
       <Navbar />
-      <main className="pt-28">
+      <main className="pt-28 pb-6">
         <Outlet />
       </main>
     </div>
