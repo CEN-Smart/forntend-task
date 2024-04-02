@@ -110,9 +110,12 @@ const CartPage = () => {
                 <div className="flex justify-between">
                   <p>Subtotal</p>
                   <p>
-                    {products
-                      .reduce((acc, product) => acc + product.price, 0)
-                      .toFixed(2)}
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(
+                      products.reduce((acc, product) => acc + product.price, 0)
+                    )}
                   </p>
                 </div>
               </CardDescription>
@@ -120,12 +123,15 @@ const CartPage = () => {
                 <div className="flex justify-between">
                   <p>Tax</p>
                   <p>
-                    {(
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(
                       products.reduce(
                         (acc, product) => acc + product.price,
                         0
                       ) * 0.1
-                    ).toFixed(2)}
+                    )}
                   </p>
                 </div>
               </CardDescription>
@@ -133,12 +139,15 @@ const CartPage = () => {
                 <div className="flex justify-between">
                   <p>Total</p>
                   <p>
-                    {(
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(
                       products.reduce(
                         (acc, product) => acc + product.price,
                         0
                       ) * 1.1
-                    ).toFixed(2)}
+                    )}
                   </p>
                 </div>
               </CardDescription>
@@ -146,11 +155,14 @@ const CartPage = () => {
             <CardFooter>
               <Button className="w-full">
                 Checkout ({" "}
-                {(
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(
                   products.reduce((acc, product) => acc + product.price, 0) *
-                  1.1
-                ).toFixed(2)}
-                ){" "}
+                    1.1
+                )}{" "}
+                )
               </Button>
             </CardFooter>
           </Card>
