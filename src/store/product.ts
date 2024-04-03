@@ -57,7 +57,10 @@ export const useCartStore = create(
         });
       },
       clearCart: () => {
-        set({ cartItems: [] });
+        const confirmClear = window.confirm("Are you sure you want to clear?");
+        if (confirmClear) {
+          set({ cartItems: [] });
+        }
       },
     }),
     {

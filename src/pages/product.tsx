@@ -5,10 +5,10 @@ import PageLoading from "../components/page-load-data";
 import { Button } from "../components/ui/button";
 import { cn } from "../lib/utils";
 import { useCartStore } from "./../store/product";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
 const Product = () => {
-  const { productId = "" } = useParams();
+  const { productId } = useParams() as { productId: string };
   const { addItemToCart } = useCartStore();
 
   const { data, isFetching, isPending, isError, error } = useQuery({
@@ -26,7 +26,7 @@ const Product = () => {
 
   const handleAddToCart = () => {
     addItemToCart(data);
-    toast.success(data.title + " added to cart");
+    toast.success(`${data.title} added to cart`);
   };
 
   return (

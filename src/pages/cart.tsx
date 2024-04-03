@@ -12,7 +12,7 @@ import {
   CardDescription,
 } from "./../components/ui/card";
 import { useCartStore } from "./../store/product";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
 const CartPage = () => {
   const {
@@ -35,7 +35,7 @@ const CartPage = () => {
 
   const onRemoveItemFromCart = (id: number) => {
     removeItemFromCart(id);
-    toast.success(productTitle?.title + " removed from cart");
+    toast.success(`${productTitle?.title} removed from cart`);
   };
 
   const onClearCart = () => {

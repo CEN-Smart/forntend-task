@@ -13,7 +13,7 @@ import { Product } from "../../types/product";
 import { Button } from "..//ui/button";
 import { Link } from "react-router-dom";
 import { useCartStore } from "./../../store/product";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
 interface ProductCardProps {
   product: Product;
@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addItemToCart } = useCartStore();
   const handleAddToCart = () => {
     addItemToCart(product);
-    toast.success(product.title + " added to cart");
+    toast.success(`${product.title} added to cart`);
   };
 
   return (
