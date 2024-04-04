@@ -5,7 +5,7 @@ import { fetchProducts } from "../../query/fetch-products";
 import { cn } from "../../lib/utils";
 import PageLoading from "../page-load-data";
 const ProductsList = () => {
-  const { data, isFetching, isPending, isError, error } = useQuery({
+  const { data, isFetching, isPending, isError, error, isPaused } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
     staleTime: 1000 * 60 * 5,
@@ -13,6 +13,14 @@ const ProductsList = () => {
 
   if (isFetching || isPending) {
     return <PageLoading />;
+  }
+
+  if (isPaused) {
+    return (
+      <div className="text-center text-gray-600 mt-4">
+        Network delay: Please wait...
+      </div>
+    );
   }
 
   if (isError) {

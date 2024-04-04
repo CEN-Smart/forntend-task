@@ -6,7 +6,16 @@ export const fetchProducts = async (): Promise<Product[]> => {
   return data as Product[];
 };
 
-export const fetchProduct = async (id: string): Promise<Product> => {
-  const { data } = await axios.get(`https://fakestoreapi.com/products/${id}`);
+interface QueryKey {
+  queryKey: [{ queryIdentifier: string; productId: string }];
+}
+
+export const fetchProduct = async ({
+  queryKey,
+}: QueryKey): Promise<Product> => {
+  const { productId } = queryKey[0];
+  const { data } = await axios.get(
+    `https://fakestoreapi.com/products/${productId}`
+  );
   return data as Product;
 };

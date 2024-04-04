@@ -11,13 +11,21 @@ const Product = () => {
   const { productId } = useParams() as { productId: string };
   const { addItemToCart } = useCartStore();
 
-  const { data, isFetching, isPending, isError, error } = useQuery({
-    queryKey: ["product", { productId }],
-    queryFn: () => fetchProduct(productId),
+  const { data, isFetching, isPending, isError, error, isPaused } = useQuery({
+    queryKey: [{ queryIdentifier: "product", productId }],
+    queryFn: fetchProduct,
     staleTime: 1000 * 60 * 5,
   });
   if (isFetching || isPending) {
     return <PageLoading />;
+  }
+
+  if (isPaused) {
+    return (
+      <div className="text-center text-gray-600 mt-4">
+        Network delay: Please wait...
+      </div>
+    );
   }
 
   if (isError) {
