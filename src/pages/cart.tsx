@@ -70,7 +70,7 @@ const CartPage = () => {
               >
                 Clear Cart
               </Button>
-              <Link to="/checkout">
+              <Link to="checkout">
                 <Button
                   className="bg-green-500 text-white"
                   disabled={cartItems.length === 0}

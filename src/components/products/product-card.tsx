@@ -4,16 +4,16 @@ import {
   CardTitle,
   CardFooter,
   CardContent,
-} from "../ui/card";
+} from '../ui/card';
 
-import { EyeOpenIcon } from "@radix-ui/react-icons";
+import { EyeOpenIcon } from '@radix-ui/react-icons';
 
-import { cn } from "../../lib/utils";
-import { Product } from "../../types/product";
-import { Button } from "..//ui/button";
-import { Link } from "react-router-dom";
-import { useCartStore } from "./../../store/product";
-import { toast } from "react-hot-toast";
+import { cn } from '../../lib/utils';
+import { Product } from '../../types/product';
+import { Button } from '..//ui/button';
+import { Link } from 'react-router-dom';
+import { useCartStore } from './../../store/product';
+import { toast } from 'react-hot-toast';
 
 interface ProductCardProps {
   product: Product;
@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         shadow-lg
         z-10
       `)}
-        to={`/product/${product.id}`}
+        to={`product/${product.id}`}
       >
         <EyeOpenIcon
           className={cn(`
@@ -68,11 +68,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         <p>
           <span
-            className={cn("", {
-              "text-green-600": product.category === "women's clothing",
-              "text-blue-600": product.category === "jewelery",
-              "text-yellow-600": product.category === "electronics",
-              "text-red-600": product.category === "men's clothing",
+            className={cn('', {
+              'text-green-600': product.category === "women's clothing",
+              'text-blue-600': product.category === 'jewelery',
+              'text-yellow-600': product.category === 'electronics',
+              'text-red-600': product.category === "men's clothing",
             })}
           >
             {product.category}
@@ -83,17 +83,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <CardTitle>{product.title}</CardTitle>
       </CardContent>
       <CardFooter>
-        <div className={cn("flex justify-between w-full items-center")}>
+        <div className={cn('flex justify-between w-full items-center')}>
           <span>
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
+            {new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
             }).format(product.price)}
           </span>
           <Button
             onClick={handleAddToCart}
             variant="outline"
-            className={cn("button", "button-primary")}
+            className={cn('button', 'button-primary')}
           >
             Add to Cart
           </Button>

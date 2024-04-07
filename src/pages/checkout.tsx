@@ -9,8 +9,10 @@ import {
 } from './../components/ui/card';
 import { Button } from './../components/ui/button';
 import { Link } from 'react-router-dom';
+import { cn } from '../lib/utils';
 const CheckOutPage = () => {
   const { cartItems, removeItemFromCart } = useCartStore();
+  const quantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const onRemoveItemFromCart = (id: number) => {
     removeItemFromCart(id);
@@ -20,7 +22,13 @@ const CheckOutPage = () => {
     <div className="max-w-3xl w-full mx-auto p-4">
       <Card>
         <CardHeader>
-          <CardTitle>Checkout</CardTitle>
+          <CardTitle>
+            Checkout :{' '}
+            {quantity > 0
+              ? `(${quantity})
+            ${quantity > 1 ? 'items' : 'item'}`
+              : ''}
+          </CardTitle>
         </CardHeader>
         <CardContent className="max-h-[320px] overflow-y-auto">
           {cartItems.length > 0 ? (
@@ -81,7 +89,16 @@ const CheckOutPage = () => {
                 )
               )}
             </p>
-            <Button>Checkout</Button>
+            <Link to="/payment">
+              <Button
+                variant="outline"
+                className={cn(``, {
+                  'cursor-not-allowed': cartItems.length === 0,
+                })}
+              >
+                Continue
+              </Button>
+            </Link>
           </div>
         </CardFooter>
       </Card>

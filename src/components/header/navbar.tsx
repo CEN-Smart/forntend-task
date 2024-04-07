@@ -1,7 +1,7 @@
-import { cn } from "./../../lib/utils";
-import { Link, NavLink } from "react-router-dom";
-import { TiShoppingCart } from "react-icons/ti";
-import { useCartStore } from "./../../store/product";
+import { cn } from './../../lib/utils';
+import { Link, NavLink } from 'react-router-dom';
+import { TiShoppingCart } from 'react-icons/ti';
+import { useCartStore } from './../../store/product';
 const Navbar = () => {
   const { cartItems } = useCartStore();
   const quantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -25,7 +25,7 @@ const Navbar = () => {
                     `inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-white hover:text-white
                  hover:border-white`,
                     {
-                      "border-rose-500": isActive,
+                      'border-rose-500': isActive,
                     }
                   );
                 }}
@@ -34,7 +34,7 @@ const Navbar = () => {
               </NavLink>
             </div>
           </div>
-          <Link to="/cart" className="flex items-center relative">
+          <Link to="cart" className="flex items-center relative">
             <div className=" sm:ml-6 sm:flex sm:items-center">
               <button className="p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                 <span className="sr-only">View notifications</span>
