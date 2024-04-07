@@ -1,4 +1,4 @@
-import { useCartStore } from "./../store/product";
+import { useCartStore } from './../store/product';
 import {
   Card,
   CardContent,
@@ -6,11 +6,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./../components/ui/card";
-import { Button } from "./../components/ui/button";
+} from './../components/ui/card';
+import { Button } from './../components/ui/button';
 const CheckOutPage = () => {
   const { cartItems } = useCartStore();
   const quantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const tax = quantity * 0.1;
+  const total = tax + quantity;
   return (
     <div className="max-w-6xl w-full p-2 mx-auto flex flex-col sm:flex-row gap-4">
       <Card
@@ -52,8 +54,8 @@ const CheckOutPage = () => {
       <Card className=" max-w-sm  h-fit shrink-0">
         <CardHeader>
           <CardTitle>
-            Order Summary with a total of {quantity}{" "}
-            {quantity > 1 ? "items" : "item"}
+            Order Summary with a total of {quantity}{' '}
+            {quantity > 1 ? 'items' : 'item'}
           </CardTitle>
         </CardHeader>
         <CardContent className=" divide-y-2 space-y-2">
@@ -61,15 +63,10 @@ const CheckOutPage = () => {
             <div className="flex justify-between">
               <p>Subtotal</p>
               <p>
-                {new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(
-                  cartItems.reduce(
-                    (acc, item) => acc + item.price * item.quantity,
-                    0
-                  )
-                )}
+                {new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                }).format(quantity)}
               </p>
             </div>
           </CardDescription>
@@ -77,15 +74,10 @@ const CheckOutPage = () => {
             <div className="flex justify-between">
               <p>Tax</p>
               <p>
-                {new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(
-                  cartItems.reduce(
-                    (acc, item) => acc + item.price * item.quantity * 0.1,
-                    0
-                  )
-                )}
+                {new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                }).format(tax)}
               </p>
             </div>
           </CardDescription>
@@ -93,19 +85,10 @@ const CheckOutPage = () => {
             <div className="flex justify-between">
               <p>Total</p>
               <p>
-                {new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(
-                  cartItems.reduce(
-                    (acc, item) => acc + item.price * item.quantity,
-                    0
-                  ) +
-                    cartItems.reduce(
-                      (acc, item) => acc + item.price * item.quantity * 0.1,
-                      0
-                    )
-                )}
+                {new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                }).format(total)}
               </p>
             </div>
           </CardDescription>

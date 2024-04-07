@@ -1,30 +1,30 @@
-import NavbarWrapper from "./components/header/navbar-wrapper";
-import Product from "./pages/product";
-import HomePage from "./pages/products";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CartPage from "./pages/cart";
-import CheckOutPage from "./pages/checkout";
+import NavbarWrapper from './components/header/navbar-wrapper';
+import Product from './pages/product';
+import HomePage from './pages/products';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import CartPage from './pages/cart';
+import CheckOutPage from './pages/checkout';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <NavbarWrapper />,
     errorElement: <div>404 Not Found</div>,
     children: [
       {
-        path: "/",
+        path: '/',
         element: <HomePage />,
       },
       {
-        path: "/cart",
+        path: '/cart',
         element: <CartPage />,
       },
       {
-        path: "/checkout/addresses",
+        path: '/checkout',
         element: <CheckOutPage />,
       },
       {
-        path: "/product/:productId",
+        path: '/product/:productId',
         element: <Product />,
       },
     ],
