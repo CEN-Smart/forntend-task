@@ -8,95 +8,81 @@ import {
   CardTitle,
 } from './../components/ui/card';
 import { Button } from './../components/ui/button';
+import { Link } from 'react-router-dom';
 const CheckOutPage = () => {
-  const { cartItems } = useCartStore();
-  const quantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const tax = quantity * 0.1;
-  const total = tax + quantity;
-  return (
-    <div className="max-w-6xl w-full p-2 mx-auto flex flex-col sm:flex-row gap-4">
-      <Card
-        className={`
-            h-fit flex-1 shrink-0
-      `}
-      >
-        <CardHeader>
-          <CardTitle>Shipping Address</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <CardDescription>
-            <div className="flex justify-between">
-              <p>Address</p>
-              <p>1234 Main Street</p>
-            </div>
-          </CardDescription>
-          <CardDescription>
-            <div className="flex justify-between">
-              <p>City</p>
-              <p>City Name</p>
-            </div>
-          </CardDescription>
-          <CardDescription>
-            <div className="flex justify-between">
-              <p>State</p>
-              <p>State Name</p>
-            </div>
-          </CardDescription>
-          <CardDescription>
-            <div className="flex justify-between">
-              <p>Zip Code</p>
-              <p>12345</p>
-            </div>
-          </CardDescription>
-        </CardContent>
-      </Card>
+  const { cartItems, removeItemFromCart } = useCartStore();
 
-      <Card className=" max-w-sm  h-fit shrink-0">
+  const onRemoveItemFromCart = (id: number) => {
+    removeItemFromCart(id);
+  };
+
+  return (
+    <div className="max-w-3xl w-full mx-auto p-4">
+      <Card>
         <CardHeader>
-          <CardTitle>
-            Order Summary with a total of {quantity}{' '}
-            {quantity > 1 ? 'items' : 'item'}
-          </CardTitle>
+          <CardTitle>Checkout</CardTitle>
         </CardHeader>
-        <CardContent className=" divide-y-2 space-y-2">
-          <CardDescription>
-            <div className="flex justify-between">
-              <p>Subtotal</p>
-              <p>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                }).format(quantity)}
-              </p>
-            </div>
-          </CardDescription>
-          <CardDescription>
-            <div className="flex justify-between">
-              <p>Tax</p>
-              <p>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                }).format(tax)}
-              </p>
-            </div>
-          </CardDescription>
-          <CardDescription>
-            <div className="flex justify-between">
-              <p>Total</p>
-              <p>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                }).format(total)}
-              </p>
-            </div>
-          </CardDescription>
+        <CardContent className="max-h-[320px] overflow-y-auto">
+          {cartItems.length > 0 ? (
+            cartItems.map(item => (
+              <div
+                key={item.id}
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg mb-2"
+              >
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={item.image}
+                    alt={item.description}
+                    className="w-16 h-16 object-scale-down rounded-lg"
+                  />
+                  <div>
+                    <p className="text-gray-500">
+                      {item.quantity} x{' '}
+                      {new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      }).format(item.price)}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <Button
+                    onClick={() => onRemoveItemFromCart(item.id)}
+                    variant="link"
+                    className="text-red-500"
+                  >
+                    Remove
+                  </Button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <CardDescription>
+              Your cart is empty. Add some items to cart.
+              <Link to="/">
+                <Button variant="link" className="text-blue-500">
+                  Start Shopping
+                </Button>
+              </Link>
+            </CardDescription>
+          )}
         </CardContent>
         <CardFooter>
-          <Button variant="outline" className="w-full">
-            Confirm Order
-          </Button>
+          <div className="flex justify-between items-center space-x-2">
+            <p className="text-lg">
+              Total:{' '}
+              {new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              }).format(
+                cartItems.reduce(
+                  (acc, item) => acc + item.price * item.quantity,
+                  0
+                )
+              )}
+            </p>
+            <Button>Checkout</Button>
+          </div>
         </CardFooter>
       </Card>
     </div>
