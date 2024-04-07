@@ -22,7 +22,7 @@ const CartPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="max-w-3xl w-full mx-auto p-4">
       <Card>
         <CardHeader>
           <CardTitle>
@@ -34,7 +34,7 @@ const CartPage = () => {
               : ''}
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className=" max-h-[320px] overflow-y-auto">
           {cartItems.length > 0 ? (
             cartItems.map(item => <CartItem key={item.id} product={item} />)
           ) : (
