@@ -23,7 +23,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   };
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex flex-col xs:flex-row xs:justify-between xs:items-center mb-3 pb-3 border-b border-gray-400">
       <div className="flex items-center space-x-4">
         <img
           src={product.image}
@@ -50,7 +50,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </p>
         </div>
       </div>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 mt-3 xs:mt-0">
         <Button
           onClick={() => onDecreaseItemQuantity(product.id)}
           className={cn('px-2 py-1', {

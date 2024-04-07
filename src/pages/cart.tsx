@@ -49,7 +49,7 @@ const CartPage = () => {
           )}
         </CardContent>
         <CardFooter>
-          <div className="flex justify-between items-center w-full">
+          <div className="flex flex-col xs:flex-row xs:justify-between items-center w-full">
             <p className="text-lg">
               Total:{' '}
               {new Intl.NumberFormat('en-US', {
@@ -62,7 +62,7 @@ const CartPage = () => {
                 )
               )}
             </p>
-            <div className="space-x-4">
+            <div className="space-x-4 mt-3 xs:mt-0">
               <Button
                 onClick={onClearCart}
                 className="bg-red-500 text-white"
